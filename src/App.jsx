@@ -5,6 +5,7 @@ import Register from "./pages/Register/Register";
 import Profile from "./pages/Profile/Profile";
 import UpdateProfile from "./pages/UpdateProfile/UpdateProfile";
 import Header from "./components/Header/Header";
+import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/update" element={<UpdateProfile />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   )

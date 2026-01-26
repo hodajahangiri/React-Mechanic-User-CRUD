@@ -19,7 +19,7 @@ function Header() {
     }
 
     return (
-        <header className={isDarkMode ? 'mainDark' : 'mainLight'}>
+        <header className={isDarkMode ? 'headerDark' : 'headerLight'}>
             <div className='logo' onClick={() => navigate('/')}>
                 <img src={logo} alt="MechanicShop" />
                 <h1 >Mechanic Shop</h1>

@@ -1,0 +1,26 @@
+.mainContainer {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 80px;
+}
+
+.notFoundDark {
+  background-color: #3f5d7a;
+  color: #f4f7f7;
+}
+
+.notFoundLight {
+  background-color: #f4f7f7;
+  color: #3f5d7a;
+}
+
+.a-Light {
+  text-decoration: none;
+  color: #2c3e50;
+}
+.a-dark {
+  text-decoration: none;
+  color: #ecf0f1;
+}

@@ -1,8 +1,11 @@
+import LoginForm from '../../components/LoginForm/LoginForm'
 import './Login.css'
 
 function Login() {
   return (
-    <div>Login</div>
+    <div style={{flex: "1",padding:"20px"}}>
+      <LoginForm/>
+    </div>
   )
 }
 

@@ -1,9 +1,11 @@
 import './Home.css';
 
-
 function Home() {
+
   return (
-    <div>Home</div>
+    <div style={{flex: "1",padding:"20px"}}>
+      Home
+    </div>
   )
 }
 

@@ -28,26 +28,36 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Login function
-  const login = async (email, password) => { 
-    const response = await fetch(`${ApiUrl}mechanics/login`, {
+  const login = async (credentialData) => { 
+    console.log(credentialData);
+    try{
+const response = await fetch(`${ApiUrl}mechanics/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email: email,
-        password: password
+        email: credentialData.email,
+        password: credentialData.password
       })
     });
 
     console.log("Response");
-    const loginData = await response.json();
-    console.log('Token data:', loginData);
-
-    setMechanicToken(loginData.token);
-    setMechanic(loginData.mechanic_data);
-    localStorage.setItem("mechanicToken", loginData.token);
-    localStorage.setItem("mechanic", JSON.stringify(loginData.mechanic_data)); //transforming the user into json readable string
+    if(response.ok){
+      const loginData = await response.json();
+      console.log('Token data:', loginData);
+      setMechanicToken(loginData.token);
+      setMechanic(loginData.mechanic_data);
+      localStorage.setItem("mechanicToken", loginData.token);
+      localStorage.setItem("mechanic", JSON.stringify(loginData.mechanic_data)); //transforming the user into json readable string
+    }else{
+      alert("Error: Invalid Email or Password")
+    }
+    }catch(error){
+      alert("Error: ", {error})
+    }
+    
+    
   }
 
 

@@ -1,5 +1,4 @@
 import LoginForm from '../../components/LoginForm/LoginForm'
-import './Login.css'
 
 function Login() {
   return (

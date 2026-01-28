@@ -3,14 +3,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function MechanicForm({ submitFunction, isRegister }) {
-  console.log("SubmitFunc: ", submitFunction);
-  console.log("isRegister: ", isRegister);
 
   const { mechanic } = useAuth();
-
   const navigate = useNavigate();
-
-  console.log("Mechanic: ", mechanic);
 
   const [formData, setFormData] = useState({
     first_name: '',
@@ -23,9 +18,7 @@ function MechanicForm({ submitFunction, isRegister }) {
   });
 
   useEffect(() => {
-    console.log("Check if the data is here or not")
     if (!isRegister && mechanic) {
-      console.log("Update Page");
       setFormData(prev => ({ ...prev, ...mechanic }));
       setFormData(prev => ({...prev, ["password"]: ""}));
     }

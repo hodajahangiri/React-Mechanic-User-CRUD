@@ -1,4 +1,3 @@
-import './Register.css';
 import { useAuth } from '../../contexts/AuthContext';
 import MechanicForm from '../../components/MechanicForm/MechanicForm';
 

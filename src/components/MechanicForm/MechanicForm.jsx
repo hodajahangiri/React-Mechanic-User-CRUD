@@ -27,8 +27,9 @@ function MechanicForm({ submitFunction, isRegister }) {
     if (!isRegister && mechanic) {
       console.log("Update Page");
       setFormData(prev => ({ ...prev, ...mechanic }));
+      setFormData(prev => ({...prev, ["password"]: ""}));
     }
-  }, [])
+  }, []);
 
 
   const handleChange = event => {
@@ -43,7 +44,8 @@ function MechanicForm({ submitFunction, isRegister }) {
   const handleSubmit = event => {
     event.preventDefault();
     submitFunction(formData);
-    isRegister ? navigate('/') : navigate('/profile');
+    // isRegister ? navigate('/') : navigate('/profile');
+    navigate('/profile');
   };
 
   return (

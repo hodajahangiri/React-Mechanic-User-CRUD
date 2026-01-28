@@ -89,8 +89,11 @@ export const AuthProvider = ({ children }) => {
           setMechanic(responseData.mechanic_data);
           localStorage.setItem("mechanicToken", responseData.token);
           localStorage.setItem("mechanic", JSON.stringify(responseData.mechanic_data));
-        } else {
-          alert("Error: ", responseData.error);
+        } else if(response.status === 400) {
+          console.error(responseData.error);
+          alert('You already have an account with this email.');
+        }else{
+          alert('Something went wrong.');
         }
       }
     } catch (error) {
@@ -109,18 +112,42 @@ export const AuthProvider = ({ children }) => {
         }
       })
       const responseData = await response.json();
-      if(response.ok){
+      if (response.ok) {
         alert(responseData.message);
         logout();
-      }else{
+      } else {
         alert(responseData.message);
       }
     } catch (error) {
       alert("Error: ", error);
     }
-  }
-  
+  };
 
+
+  // UpdateProfile function
+  const UpdateProfile = async (updateData) => {
+    try {
+      const response = await fetch(`${ApiUrl}mechanics`, {
+        method: "PUT",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + mechanicToken
+        },
+        body: JSON.stringify(updateData)
+      })
+      if(response.ok){
+        const updatedMechanicData = await response.json();
+        alert(updatedMechanicData.message);
+        console.log("updateMechanicData", updatedMechanicData.mechanic_data);
+        setMechanic(updatedMechanicData.mechanic_data);
+        localStorage.setItem("mechanic", JSON.stringify(updatedMechanicData.mechanic_data));
+      }else{
+        alert("Something went wrong, try again...")
+      }
+    } catch (error) {
+      alert("Error: ", error);
+    }
+  };
 
   const value = {
     mechanicToken,
@@ -129,6 +156,7 @@ export const AuthProvider = ({ children }) => {
     logout,
     register,
     deleteMechanic,
+    UpdateProfile,
     isAuthenticated: mechanicToken ? true : false
   }
 

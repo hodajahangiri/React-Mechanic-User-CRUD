@@ -6,14 +6,12 @@ import ServiceTicketCard from "../ServiceTicketCard/ServiceTicketCard";
 function ServiceTickets() {
 
     const { getServiceTickets } = useAuth();
-
     const [serviceTickets, setServiceTickets] = useState([]);
 
 
     useEffect(() => {
         const getServiceTicketList = async () => {
             const serviceTicketsList = await getServiceTickets();
-            console.log("service Ticket List:", serviceTicketsList)
             setServiceTickets(serviceTicketsList);
         }
         getServiceTicketList();

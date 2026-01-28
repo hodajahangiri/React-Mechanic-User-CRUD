@@ -14,7 +14,7 @@ function Footer() {
           <p>Phone: (123) 456-7890</p>
         </div>
         <div className="contactUsFooter">
-          <h4>Related Links: </h4>
+          <h4>More Information: </h4>
           <ul>
             <li>Branches</li>
             <li>Office hours: 9 am - 6 pm</li>

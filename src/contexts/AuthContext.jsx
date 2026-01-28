@@ -29,7 +29,6 @@ export const AuthProvider = ({ children }) => {
 
   // Login function
   const login = async (credentialData) => {
-    console.log(credentialData);
     try {
       const response = await fetch(`${ApiUrl}mechanics/login`, {
         method: 'POST',
@@ -41,11 +40,8 @@ export const AuthProvider = ({ children }) => {
           password: credentialData.password
         })
       });
-
-      console.log("Response");
       if (response.ok) {
         const loginData = await response.json();
-        console.log('Token data:', loginData);
         setMechanicToken(loginData.token);
         setMechanic(loginData.mechanic_data);
         localStorage.setItem("mechanicToken", loginData.token);
@@ -54,7 +50,7 @@ export const AuthProvider = ({ children }) => {
         alert("Error: Invalid Email or Password")
       }
     } catch (error) {
-      alert("Error: ", error);
+      console.error("Error: ", error);
     }
   };
 
@@ -68,8 +64,6 @@ export const AuthProvider = ({ children }) => {
 
   // register mechanic
   const register = async (registerData) => {
-    console.log("register function...")
-    console.log("registerData: ", registerData)
     try {
       const response = await fetch(`${ApiUrl}mechanics`, {
         method: "POST",
@@ -78,12 +72,10 @@ export const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify(registerData)
       });
-      console.log("response", response)
       if (response.status === 429) {
         alert("Error: Too many request...Try again after one hour...");
       } else {
         const responseData = await response.json();
-        console.log("responseData", responseData);
         if (response.ok) {
           setMechanicToken(responseData.token);
           setMechanic(responseData.mechanic_data);
@@ -93,11 +85,11 @@ export const AuthProvider = ({ children }) => {
           console.error(responseData.error);
           alert('You already have an account with this email.');
         }else{
-          alert('Something went wrong.');
+          console.error('Something went wrong.');
         }
       }
     } catch (error) {
-      alert("Error: ", error);
+      console.error("Error: ", error);
     }
   };
 
@@ -116,10 +108,10 @@ export const AuthProvider = ({ children }) => {
         alert(responseData.message);
         logout();
       } else {
-        alert(responseData.message);
+        console.error(responseData.message);
       }
     } catch (error) {
-      alert("Error: ", error);
+      console.error("Error: ", error);
     }
   };
 
@@ -138,14 +130,35 @@ export const AuthProvider = ({ children }) => {
       if(response.ok){
         const updatedMechanicData = await response.json();
         alert(updatedMechanicData.message);
-        console.log("updateMechanicData", updatedMechanicData.mechanic_data);
         setMechanic(updatedMechanicData.mechanic_data);
         localStorage.setItem("mechanic", JSON.stringify(updatedMechanicData.mechanic_data));
       }else{
-        alert("Something went wrong, try again...")
+        console.error("Something went wrong, try again...");
       }
     } catch (error) {
-      alert("Error: ", error);
+      console.error("Error: ", error);
+    }
+  };
+
+  // Get All service tickets for specific mechanic
+  const getServiceTickets = async () => {
+    try {
+      const response = await fetch(`${ApiUrl}mechanics/service_tickets`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + mechanicToken
+        }
+      })
+      const responseData = await response.json();
+      if (response.ok) {
+        return responseData;
+      } else {
+        console.error(responseData.message);
+        logout();
+      }
+    } catch (error) {
+      console.error("Error: ", error);
     }
   };
 
@@ -157,6 +170,7 @@ export const AuthProvider = ({ children }) => {
     register,
     deleteMechanic,
     UpdateProfile,
+    getServiceTickets,
     isAuthenticated: mechanicToken ? true : false
   }
 

@@ -1,8 +1,15 @@
-import './Register.css'
+import './Register.css';
+import { useAuth } from '../../contexts/AuthContext';
+import MechanicForm from '../../components/MechanicForm/MechanicForm';
 
 function Register() {
+
+  const {register} = useAuth();
+
   return (
-    <div>Register</div>
+    <div style={{ flex: "1", padding: "20px" }}>
+      <MechanicForm submitFunction={register} isRegister={true}/>
+    </div>
   )
 }
 

@@ -28,44 +28,74 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Login function
-  const login = async (credentialData) => { 
+  const login = async (credentialData) => {
     console.log(credentialData);
-    try{
-const response = await fetch(`${ApiUrl}mechanics/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: credentialData.email,
-        password: credentialData.password
-      })
-    });
+    try {
+      const response = await fetch(`${ApiUrl}mechanics/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: credentialData.email,
+          password: credentialData.password
+        })
+      });
 
-    console.log("Response");
-    if(response.ok){
-      const loginData = await response.json();
-      console.log('Token data:', loginData);
-      setMechanicToken(loginData.token);
-      setMechanic(loginData.mechanic_data);
-      localStorage.setItem("mechanicToken", loginData.token);
-      localStorage.setItem("mechanic", JSON.stringify(loginData.mechanic_data)); //transforming the user into json readable string
-    }else{
-      alert("Error: Invalid Email or Password")
+      console.log("Response");
+      if (response.ok) {
+        const loginData = await response.json();
+        console.log('Token data:', loginData);
+        setMechanicToken(loginData.token);
+        setMechanic(loginData.mechanic_data);
+        localStorage.setItem("mechanicToken", loginData.token);
+        localStorage.setItem("mechanic", JSON.stringify(loginData.mechanic_data)); //transforming the user into json readable string
+      } else {
+        alert("Error: Invalid Email or Password")
+      }
+    } catch (error) {
+      alert("Error: ", error);
     }
-    }catch(error){
-      alert("Error: ", {error})
-    }
-    
-    
   }
 
-
+  //Logout function
   const logout = () => {
     setMechanicToken(''); //clearing saved tokens
     setMechanic(null)
     localStorage.removeItem('mechanicToken');
     localStorage.removeItem('mechanic');
+  }
+
+  // register mechanic
+  const register = async (registerData) => {
+    console.log("register function...")
+    console.log("registerData: ", registerData)
+    try {
+      const response = await fetch(`${ApiUrl}mechanics`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(registerData)
+      });
+      console.log("response", response)
+      if (response.status === 429) {
+        alert("Error: Too many request...Try again after one hour...");
+      } else {
+        const responseData = await response.json();
+        console.log("responseData", responseData);
+        if (response.ok) {
+          setMechanicToken(responseData.token);
+          setMechanic(responseData.mechanic_data);
+          localStorage.setItem("mechanicToken", responseData.token);
+          localStorage.setItem("mechanic", JSON.stringify(responseData.mechanic_data));
+        } else {
+          alert("Error: ", responseData.error);
+        }
+      }
+    } catch (error) {
+      alert("Error: ", error);
+    }
   }
 
 
@@ -74,6 +104,7 @@ const response = await fetch(`${ApiUrl}mechanics/login`, {
     mechanic,
     login,
     logout,
+    register,
     isAuthenticated: mechanicToken ? true : false
   }
 

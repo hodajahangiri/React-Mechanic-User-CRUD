@@ -16,7 +16,7 @@ function App() {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div style={{display: "flex", flexDirection: "column", height:"100vh",background: isDarkMode ? "#1e2a36" : "#d2d6d8", color:isDarkMode ? "#d2d6d8" : "#1e2a36" }}>
+    <div style={{display: "flex", flexDirection: "column", minHeight:"100vh",background: isDarkMode ? "#1e2a36" : "#d2d6d8", color:isDarkMode ? "#d2d6d8" : "#1e2a36" }}>
       <Header/>
       <Routes>
         <Route path="/" element={

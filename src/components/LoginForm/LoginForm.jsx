@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import './LoginForm.css'
 
 function LoginForm() {
 
@@ -31,9 +30,9 @@ function LoginForm() {
     };
 
     return (
-        <div className="LoginFormContainer">
+        <div className="formContainer">
             <h2>Sign Up</h2>
-            <form className="LoginForm" onSubmit={handleSubmit}>
+            <form className="form" onSubmit={handleSubmit}>
                 <div className="fieldset-style">
                     <legend>Email:  </legend>
                     <input type="email"

@@ -11,7 +11,7 @@ const ApiUrl = "https://mechanic-app-r9ih.onrender.com/";
 export const useAuth = () => {
   const context = useContext(AuthContext);
   return context;
-}
+};
 
 //Step 3
 export const AuthProvider = ({ children }) => {
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       alert("Error: ", error);
     }
-  }
+  };
 
   //Logout function
   const logout = () => {
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
     setMechanic(null)
     localStorage.removeItem('mechanicToken');
     localStorage.removeItem('mechanic');
-  }
+  };
 
   // register mechanic
   const register = async (registerData) => {
@@ -96,7 +96,30 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       alert("Error: ", error);
     }
+  };
+
+  //deleteMechanic function
+  const deleteMechanic = async () => {
+    try {
+      const response = await fetch(`${ApiUrl}mechanics`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + mechanicToken
+        }
+      })
+      const responseData = await response.json();
+      if(response.ok){
+        alert(responseData.message);
+        logout();
+      }else{
+        alert(responseData.message);
+      }
+    } catch (error) {
+      alert("Error: ", error);
+    }
   }
+  
 
 
   const value = {
@@ -105,6 +128,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     register,
+    deleteMechanic,
     isAuthenticated: mechanicToken ? true : false
   }
 
